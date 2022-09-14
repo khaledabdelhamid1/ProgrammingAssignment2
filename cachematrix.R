@@ -1,30 +1,21 @@
-## Put comments here that give an overall description of what your
-## functions do
 
-## Write a short comment describing this function
 
+#you will find comments describing the key functions throughout the code
+
+#makecachematrix: This function creates a special "matrix" object that can cache its inverse.
+
+library(MASS)  #used to calculate inverse for squared and non squared matrices
 makeCacheMatrix <- function(x = matrix()) {
-
-}
-
-
-## Write a short comment describing this function
-
-cacheSolve <- function(x, ...) {
-        ## Return a matrix that is the inverse of 'x'
-}
-library(MASS)
-makeCacheMatrix <- function(x = matrix()) {
-  inv <- NULL
+  inv <- NULL                #initialising inverse as NULL
   set <- function(y) {
     x <<- y
     inv <<- NULL
   }
-  get <- function()x
+  get <- function()x   #function to get matrix x
   setinv <- function(inverse)inv<<-inverse
   getinv <- function(){
     inver<-ginv(x)
-    inver%*%x
+    inver%*%x          #function to get inverse of matix
     }
   list(set = set,
        get = get,
@@ -32,13 +23,17 @@ makeCacheMatrix <- function(x = matrix()) {
        getinv = getinv)
 }
 
-cacheSolve <- function(x, ...)
+cacheSolve <- function(x, ...)       #gets cache data
 {
   inv<-x$getinv()
-  if(!is.null(inv)){
+  if(!is.null(inv)){      #check if inverse is NULL
     message("getting cache data")
-    return(inv)
+    return(inv)        #returns inverse value
   }
+  data<-x$get()
+  inv<-solve(data,...)   #calculates inverse value
+  x$setinv(inv)
+  inv    #return matrix that is inverse of x
 }
 
 
